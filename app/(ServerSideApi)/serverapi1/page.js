@@ -1,6 +1,6 @@
 export default async function page() {
     //fetch is a promise, so it will return promise once its fullfileed 
-    // that is the data, so we wait until data arrrives
+    // so we wait until data arrrives
     const data = await fetch("https://dummyjson.com/products");
 
     //data is in raw format and hs many forms, so we extract json version of it

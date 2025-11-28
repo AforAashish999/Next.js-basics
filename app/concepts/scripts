@@ -1,0 +1,69 @@
+whats script component in next.js
+The <Script> component in Next.js is a special way to load external JavaScript (like Google Analytics, ads, chat widgets, etc.) in an optimized and performance-friendly way.
+
+Mate, here’s the simplest explanation you’ll find 👇
+
+✅ What is <Script> in Next.js?
+
+It is a built-in Next.js component that allows you to load third-party scripts without blocking page rendering, with different loading strategies.
+
+Import it like:
+
+import Script from "next/script";
+
+🧠 Why do we use <Script>?
+
+Because adding scripts manually (like using <script> in HTML) can slow your page or cause hydration issues.
+
+Next.js <Script> gives:
+
+Faster page loading
+
+No layout shift
+
+Automatic optimizations
+
+Controlled loading order
+
+📌 Example 1: Load a script AFTER page loads
+<Script src="https://example.com/some-script.js" strategy="lazyOnload" />
+
+
+strategy="lazyOnload"
+= load after the entire page loads (best for analytics).
+
+📌 Example 2: Load a script AFTER hydration
+<Script src="https://example.com/widget.js" strategy="afterInteractive" />
+
+
+This is the most common.
+
+📌 Example 3: Load script BEFORE page renders
+<Script src="https://example.com/critical.js" strategy="beforeInteractive" />
+
+
+Use only for scripts your page NEEDS immediately (rare).
+
+🧨 Why not use normal <script>?
+
+Because:
+
+They block rendering
+
+They can break hydration
+
+They load slower
+
+They aren't optimized
+
+No control on when they execute
+
+Next.js <Script> fixes all this.
+
+🏷️ Use cases
+Script Type	Should use <Script>?	Strategy
+Google Analytics	✔️ Yes	afterInteractive
+Facebook Pixel	✔️ Yes	afterInteractive
+Chat widgets	✔️ Yes	lazyOnload
+Ads scripts	✔️ Yes	lazyOnload
+Synthwave UI dependencies	✔️ Yes	beforeInteractive (rare)
