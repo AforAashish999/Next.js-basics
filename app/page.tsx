@@ -129,6 +129,8 @@ console.log(NEXT);
 
 <Image src="https://images.pexels.com/photos/2166711/pexels-photo-2166711.jpeg" alt="image" width={800} height={400} />
    
+   <br />  <br />
+    <h1 className='bg-gray-400 p-2 '>Font optimization in Next.js</h1>
        </>
   )
 }

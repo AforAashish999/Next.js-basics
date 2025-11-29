@@ -1,7 +1,38 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Roboto } from "next/font/google";
+import { Open_Sans } from "next/font/google";
+import { Noto_Sans_Javanese } from "next/font/google";
+import { Cedarville_Cursive } from "next/font/google";
+// import localFont from "next/font/local";
 
+//to use in tailwind css we add variable property too
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  variable: "--font-roboto",
+});
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--font-open-sans",
+});
+const notoSansJavanese = Noto_Sans_Javanese({
+  subsets: ["latin"],
+ variable: "--font-noto-sans-javanese",
+});
+const cedarvilleCursive = Cedarville_Cursive({
+  subsets: ["latin"],
+  weight: "400",
+});
+
+//outside fonts => jayu layo  milena
+// const noto = localFont({
+//   src: "/fonts/NotoSansJP-Black.woff2",
+//   variable: "--font-noto",
+// });
+
+// ******************************************************************************
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,10 +56,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable}  ${geistMono.variable}  ${notoSansJavanese.variable} `}
       >
         <header>
-          <h1 className="text-3xl p-3 font-bold bg-red-500 text-white "> Code Step by step</h1>
+          <h1 className="text-4xl p-3 font-500 font-noto-sans-javanese bg-red-500 text-white" > Code Step by step</h1>
            </header>
         {children}
         <footer>
