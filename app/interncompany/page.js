@@ -1,15 +1,16 @@
-"use client"
-// import { useState } from "react";
-import { use } from "react"
+'use client'
+import useSWR from "swr"
 
+const fetcher = (url) => fetch(url).then(res=>res.json());
 
+export default function page() {
+  const {data, error, isLoading} = useSWR(`${process.env.NEXT_PUBLIC_API}/internships`, fetcher);
 
-export default  function Interns({InternData}) {
-    
-const data = use(InternData);
-    // cosnt[showForm, setShowForm] = useState(false);
-    return (
-        <div className="relative">
+  if(isLoading) return <h1> page is loading....................</h1>
+  if(error) return <h1> This page cant be open.................... {error.message} </h1>
+
+  return (
+      <div className="relative">
 
             <div className="bg-black flex justify-center p-5 ">
                 <h1 className="text-white text-4xl font-semibold "> Internship Available!</h1>
@@ -75,7 +76,5 @@ const data = use(InternData);
             </div>
 
         </div>
-    )
+  )
 }
-
-
