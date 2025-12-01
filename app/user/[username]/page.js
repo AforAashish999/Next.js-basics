@@ -25,7 +25,7 @@ export default async function Profile({params}) {
     const { username } = await params;
   return (
     <div>
-        <h1> This is a dynamic route concept</h1>
+        <h1> This is a NNNN-Nested dynamic route concept</h1>
         <h1> User = {username} </h1>
     </div>
   )

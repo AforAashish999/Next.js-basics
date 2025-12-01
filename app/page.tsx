@@ -131,7 +131,24 @@ console.log(NEXT);
    
    <br />  <br />
     <h1 className='bg-gray-400 p-2 '>Font optimization in Next.js</h1>
+
+
+
+
+ <br /> <br /> 
+       <button onClick={()=>navigate("/form")} 
+       className='bg-green-500 text-white font-semibold p-2 rounded-xl cursor-pointer'
+       > Form Component </button>
+
+
+       
+ <br /> <br /> 
+       <button onClick={()=>navigate("/interns")} 
+       className='bg-green-500 text-white font-semibold p-2 rounded-xl cursor-pointer'
+       > Interns </button>
+
        </>
+       
   )
 }
 

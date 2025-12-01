@@ -58,13 +58,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable}  ${geistMono.variable}  ${notoSansJavanese.variable} `}
       >
-        <header>
+        {/* <header>
           <h1 className="text-4xl p-3 font-500 font-noto-sans-javanese bg-red-500 text-white" > Code Step by step</h1>
-           </header>
+           </header> */}
         {children}
-        <footer>
+        {/* <footer>
           <h1 className="text-center p-5 mt-10 rounded-2xl bg-black text-white"> © 2024 Aashish Gharti </h1>
-        </footer>
+        </footer> */}
       </body>
     </html>
   );
