@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function Layout({children}: {children: React.ReactNode}) {
+export default  function Layout({children}: {children: React.ReactNode}) {
     const pathName = usePathname();
     const conditionalPath = ["/login/login3", "/login/login4", "/login/login5" ]
   return (

@@ -6,6 +6,7 @@ import { Open_Sans } from "next/font/google";
 import { Noto_Sans_Javanese } from "next/font/google";
 import { Cedarville_Cursive } from "next/font/google";
 // import localFont from "next/font/local";
+import Nav from "./component/Nav.js"
 
 //to use in tailwind css we add variable property too
 
@@ -61,6 +62,9 @@ export default function RootLayout({
         {/* <header>
           <h1 className="text-4xl p-3 font-500 font-noto-sans-javanese bg-red-500 text-white" > Code Step by step</h1>
            </header> */}
+           <header>
+            <Nav />
+           </header>
         {children}
         {/* <footer>
           <h1 className="text-center p-5 mt-10 rounded-2xl bg-black text-white"> © 2024 Aashish Gharti </h1>
