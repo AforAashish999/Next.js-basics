@@ -1,42 +1,72 @@
 {
-    "internships": [
-        {
-            "id": 1,
-            "title": "Full Stack Developer Intern",
-            "company": "CDL Tech",
-            "location": "Remote",
-            "duration": "3 months",
-            "stipend": "5000 NPR",
-            "description": "Hands-on experience with real projects.",
-            "requirements": [
-                "JavaScript basics",
-                "Node.js knowledge"
-            ]
-        },
-        {
-            "id": 2,
-            "title": "Frontend Intern",
-            "company": "NextVision",
-            "location": "Kathmandu",
-            "duration": "2 months",
-            "stipend": "3000 NPR",
-            "description": "Work with React, Next.js UI components.",
-            "requirements": [
-                "HTML CSS",
-                "React basics"
-            ]
-        }
-    ],
-    "users": [
-        {
-            "id": 1,
-            "name": "Aashish",
-            "email": "aashishgharti@gmail.com"
-        },
-        {
-            "id": 2,
-            "name": "Sumit",
-            "email": "sumitpoudel@gmail.com"
-        }
-    ]
+  "internships": [
+    {
+      "id": "1",
+      "title": "Full Stack Developer Intern",
+      "company": "CDL Tech",
+      "location": "Remote",
+      "duration": "3 months",
+      "stipend": "5000 NPR",
+      "description": "Hands-on experience with real projects.",
+      "requirements": [
+        "JavaScript basics",
+        "Node.js knowledge"
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Frontend Intern",
+      "company": "NextVision",
+      "location": "Kathmandu",
+      "duration": "2 months",
+      "stipend": "3000 NPR",
+      "description": "Work with React, Next.js UI components.",
+      "requirements": [
+        "HTML CSS",
+        "React basics"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "Aashish",
+      "email": "aashishgharti@gmail.com"
+    },
+    {
+      "id": "2",
+      "name": "Sumit",
+      "email": "sumitpoudel@gmail.com"
+    },
+    {
+      "id": "97e3",
+      "name": "aashish12@gmailcm",
+      "companyId": "1",
+      "companyName": "Full Stack Developer Intern"
+    },
+    {
+      "id": "ca3f",
+      "name": "aashish12@gmailcm",
+      "companyId": "1",
+      "companyName": "Full Stack Developer Intern"
+    },
+    {
+      "id": "325d",
+      "name": "aashish12@gmailcm",
+      "companyId": "1",
+      "companyName": "Full Stack Developer Intern"
+    },
+    {
+      "id": "29db",
+      "name": "lax@gmail.com",
+      "companyId": "1",
+      "companyName": "Full Stack Developer Intern"
+    },
+    {
+      "id": "22d3",
+      "name": "john@gmail.com",
+      "companyId": "2",
+      "companyName": "Frontend Intern"
+    }
+  ]
 }
