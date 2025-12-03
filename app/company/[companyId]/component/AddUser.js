@@ -32,6 +32,7 @@ export default function AddUser({ companyId, closePop }) {
       console.log("User Details", userDetails);
       reset();
       closePop();
+      alert("User Added");
       window.location.reload();
     } catch (err) {
       console.error(err);

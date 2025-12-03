@@ -9,8 +9,8 @@ export default function DelUser({ id }) {
          if (res.status !== 200 && res.status !== 204) {
       throw new Error("failed to delete");
     }
-    window.location.reload();
     alert("succesfully delted")
+    window.location.reload();
 
             //checking del status
             console.log("Delete status", res.status)

@@ -1,41 +1,39 @@
 "use client";
 import { useForm } from "react-hook-form";
 
-export default function UpdateUser({closePop, }) {
+export default function UpdateUser({closePop, id, name, email, address}) {
+  const{register, handleSubmit } = useForm({ defaultValues: {name, email, address} });
+  const onSubmit = async(data)=> {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/users/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type" : "application/json" },
+      body: JSON.stringify(data)
+    })
+    if(!response.ok) throw new Error("Updation Failed ")
+      alert("User Updated");
+      window.location.reload();
+  }
 
   return (
     <>
       <div className="min-h-screen bg-slate-100 flex justify-center items-center">
         <div className="min-h-0 bg-slate-300 p-12 rounded-lg ">
           <form 
-        //   onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col">
               <label className="text-slate-600 font-bold">Name</label>
-              <input
-                type="text"
-                defaultValue={"aasish"} //defaultvalue instead of value, cuz if value only it will re-render
-                className=" focus:outline-0 p-2 rounded-lg bg-white  "
-              />
+              <input {...register("name")} className=" focus:outline-0 p-2 rounded-lg bg-white "/>
             </div>
 
             <div className="flex flex-col my-5">
               <label className="text-slate-600 font-bold">Email</label>
-              <input
-                type="email"
-                placeholder="Enter email"
-                className=" focus:outline-0 p-2 rounded-lg bg-white"
-              />
-              
+              <input {...register("email")} className=" focus:outline-0 p-2 rounded-lg bg-white"/>
             </div>
 
             <div className="flex flex-col">
               <label className="text-slate-600 font-bold">Address</label>
-              <input
-                type="text"
-                placeholder="Enter address"
-                className=" focus:outline-0 p-2 rounded-lg bg-white"
-              />
+              <input  {...register("address")} className=" focus:outline-0 p-2 rounded-lg bg-white"/>
             </div>
 
             <div className="flex flex-col mt-8">

@@ -70,24 +70,17 @@
       "companyId": "2"
     },
     {
-      "id": "492f",
-      "name": "Abilash Mate",
-      "email": "abilash@gmail.com",
-      "address": "Saptagandaki chowk",
-      "companyId": "1"
-    },
-    {
-      "id": "8266",
-      "name": "Aman Mate",
-      "email": "amanmahatocsit080@chitwancollege.edu.np",
-      "address": "Chaurali chowk, Chitwan",
-      "companyId": "1"
-    },
-    {
-      "id": "4422",
+      "id": "2f6c",
       "name": "Samip Bhrata",
       "email": "samip@gmail.com",
       "address": "Bnp-8, Chitwan",
+      "companyId": "1"
+    },
+    {
+      "id": "1685",
+      "name": "Aman Mate",
+      "email": "amanmahatocsit080@chitwancollege.edu.np",
+      "address": "Chaurali chowk, Chitwan",
       "companyId": "1"
     }
   ]

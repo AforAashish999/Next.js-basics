@@ -10,11 +10,13 @@ import { IoPersonAdd } from 'react-icons/io5'
 import AddUser from '../component/AddUser'
 import DelUser from '../component/DelUser'
 import UpdateUser from '../component/UpdateUser'
+import UserDetails from '../component/UserDetails'
 
 export default function page () {
   const { companyId } = useParams()
     const[addForm, setAddForm] = useState(null);
     const[showUpdate, setShowUpdate] = useState(null);
+    const[viewDetails, setViewDetails] = useState(null);
   
   const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_API}/users`,fetcher)
   if (isLoading) return <h1> page is loading....................</h1>
@@ -42,7 +44,6 @@ export default function page () {
         </button>
         </div>
         
-
         <table className='border-separate border-spacing-0 rounded-lg overflow-hidden '>
           <thead >
             <tr className='bg-slate-300'>
@@ -69,8 +70,11 @@ export default function page () {
                   {applicant.address}{' '}
                 </td>
                 <td className='border-gray-200 border-b p-3 flex justify-around '>
+
+                  {/* VIEW BUTTON */}
                   <div>
-                    <button className='cursor-pointer'>
+                    <button onClick={()=>setViewDetails(applicant)}
+                     className='cursor-pointer'>
                       {' '}
                       <FaRegEye className='text-slate-500' />{' '}
                     </button>
@@ -78,7 +82,7 @@ export default function page () {
 
                   {/* UPDATE BUTTON*/}
                   <div>
-                    <button onClick={()=> setShowUpdate(companyId)}
+                    <button onClick={()=> setShowUpdate(applicant)}
                     className='cursor-pointer transition-all duration-200 hover:text-blue-900 hover:scale-120'>
                       {' '}
                       <LuFolderPen className='text-blue-600' />{' '}
@@ -119,10 +123,19 @@ export default function page () {
             <div className='fixed inset-0'> 
             <UpdateUser 
             closePop={()=>setShowUpdate(null)} 
-            id={applicant.id}
-             name={applicant.name}
-                     email={applicant.email} 
-                     address={applicant.address}/>
+            id={showUpdate.id}
+             name={showUpdate.name}
+              email={showUpdate.email} 
+              address={showUpdate.address}/>
+            </div>
+          )
+        }
+        {/* VIEW DETAILS */}
+        {
+          viewDetails && (
+            <div className='fixed inset-0'>
+              <UserDetails id={viewDetails.id} />
+              {/* i cant make userdetails server component as it showed error here */}
             </div>
           )
         }
