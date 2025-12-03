@@ -8,13 +8,14 @@ export default async function Layout ({ children, params }) {
   return (
     <div className='flex min-h-screen '>
       <div className='flex flex-col  w-40 border-gray-300 border  p-'>
-        <Link
+        
+        {/* <Link
           href={`/company/${companyId}/about`}
           className='flex items-center  px-4 py-3 my-3 hover:bg-slate-300 rounded-lg '
         >
           <FcAbout className='text-blue-800 size-6' />
           <h5 className=' font-bold '>About </h5>
-        </Link>
+        </Link> */}
 
         <Link
           href={`/company/${companyId}/intern-table`}

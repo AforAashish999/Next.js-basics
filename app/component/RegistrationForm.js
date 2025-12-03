@@ -1,6 +1,8 @@
 "use client"
 import { useForm } from "react-hook-form"
 
+//////using SWR mutation
+
 export default function RegistrationForm({ companyId, companyName, onClose }) {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
 

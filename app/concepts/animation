@@ -1,0 +1,90 @@
+hover:animate-bounce, is there any other animation that can be used when i cursor a button
+ChatGPT said:
+
+Yes mate — a lot more than just hover:animate-bounce.
+Tailwind gives you many built-in animations, plus you can create your own.
+
+Here are the best usable animations for buttons:
+
+✅ 1. hover:animate-pulse
+
+Smooth pulsing glow effect.
+
+<button class="hover:animate-pulse bg-blue-600 text-white px-4 py-2 rounded-lg">
+  Click Me
+</button>
+
+✅ 2. hover:animate-spin
+
+Button icon spins when hovered.
+
+<button class="hover:animate-spin">
+  <svg>...</svg>
+</button>
+
+✅ 3. hover:animate-ping
+
+Good for notification buttons (quick ripple ping).
+
+<button class="hover:animate-ping text-blue-600">
+  ●
+</button>
+
+⚡ But… the best smooth hover animations are NOT Tailwind animation classes —
+
+they’re transition + transform utilities.
+
+These look more professional.
+
+⭐ Best Real-World Hover Animations
+4. Lift Up (most common)
+
+Button slightly moves up + shadow grows.
+
+<button class="bg-blue-600 text-white px-4 py-2 rounded-lg
+  transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+  Click Me
+</button>
+
+5. Scale Bigger (zoom)
+<button class="bg-blue-600 text-white px-4 py-2 rounded-lg
+  transition-all duration-300 hover:scale-105">
+  Click Me
+</button>
+
+6. Press Down
+<button class="bg-blue-600 text-white px-4 py-2 rounded-lg
+  transition-all duration-200 hover:scale-95">
+  Click Me
+</button>
+
+7. Glow Effect
+<button class="bg-blue-600 text-white px-4 py-2 rounded-lg
+  transition-all duration-300 hover:shadow-[0_0_15px_#3b82f6]">
+  Glow Button
+</button>
+
+8. Rotate Slightly
+<button class="bg-blue-600 text-white px-4 py-2 rounded-lg
+  transition-all duration-300 hover:-rotate-3">
+  Rotate
+</button>
+
+9. Hover Border Expansion (minimal + modern)
+<button class="relative px-5 py-2 rounded-lg bg-white border overflow-hidden 
+  transition-all duration-300 hover:border-blue-600 hover:text-blue-600">
+  Hover Me
+</button>
+
+🔥 My Recommendation For You
+
+For your project (intern management dashboard), the best clean animation is:
+
+✔ hover:-translate-y-1 hover:shadow-lg hover:scale-[1.02]
+<button class="px-5 py-3 bg-blue-700 text-white rounded-lg
+  transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl">
+  Add New Intern
+</button>
+
+
+Looks modern + smooth + professional.

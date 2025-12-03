@@ -12,8 +12,8 @@
         "JavaScript basics",
         "Node.js knowledge"
       ],
-        "postedDate" : "2025-12-03",
-        "deadline" : "2026-02-10"
+      "postedDate": "2025-12-03",
+      "deadline": "2026-02-10"
     },
     {
       "id": "2",
@@ -27,106 +27,18 @@
         "HTML CSS",
         "React basics"
       ],
-       "postedDate" : "2025-12-03",
-        "deadline" : "2026-02-10"
+      "postedDate": "2025-12-03",
+      "deadline": "2026-02-10"
     }
   ],
   "users": [
     {
-      "id": "1",
-      "name": "Aashish",
-      "email": "aashishgharti@gmail.com",
-       "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-      "address": "Chitwan"
-    },
-    {
-      "id": "2",
-      "name": "Sumit",
-      "email": "sumitpoudel@gmail.com",
-       "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-        "address": "Chitwan"
-    },
-    {
-      "id": "97e3",
-      "name": "john",
-         "email": "cultivator@gmail.com",
-      "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-        "address": "Chitwan"
-    },
-    {
-      "id": "ca3f",
-      "name": "Kashish",
-         "email": "cultivator@gmail.com",
-      "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-        "address": "Kathmandu"
-    },
-    {
-      "id": "325d",
-      "name": "Luo",
-         "email": "cultivator@gmail.com",
-      "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-        "address": "Dharan"
-    },
-    {
-      "id": "29db",
-      "name": "Clark",
-         "email": "cultivator@gmail.com",
-      "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-        "address": "Pokhara"
-    },
-    {
       "id": "22d3",
       "name": "Node",
-         "email": "cultivator@gmail.com",
+      "email": "cultivator@gmail.com",
       "companyId": "2",
       "companyName": "Frontend Intern",
-        "address": "Japan"
-    },
-    {
-      "id": "c768",
-      "name": "china",
-      "email": "john@gmail.com",
-      "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-        "address": "India"
-    },
-    {
-      "id": "d27e",
-      "name": "Aashishh Cultivator",
-      "email": "cultivator@gmail.com",
-      "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-        "address": "Chitwan"
-    },
-    {
-      "id": "3332",
-      "name": "Zhuo Fan",
-      "email": "sect@gmail.com",
-      "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-        "address": "Chitwan"
-    },
-    {
-      "id": "f604",
-      "name": "Chyung Myung",
-      "email": "swordsaint@gmail.com",
-      "companyId": "1",
-      "companyName": "Full Stack Developer Intern",
-        "address": "Chitwan"
-    },
-    {
-      "id": "96a6",
-      "name": "bara",
-      "email": "bara@gmail.com",
-      "companyId": "1",
-      "companyName": "CDL Tech",
-        "address": "Chitwan"
+      "address": "Japan"
     },
     {
       "id": "d70a",
@@ -134,15 +46,49 @@
       "email": "luffy@gmail.com",
       "companyId": "2",
       "companyName": "NextVision",
-        "address": "Chitwan"
+      "address": "Chitwan"
     },
     {
-      "id": "5db0",
-      "name": "ash",
-      "email": "ash@gmail.com",
-      "companyId": "1",
-      "companyName": "CDL Tech",
-        "address": "Chitwan"
+      "id": "13b9",
+      "name": "Samip Bhrata",
+      "email": "samip@gmail.com",
+      "address": "Bnp-8, Chitwan",
+      "cId": "1"
+    },
+    {
+      "id": "c00a",
+      "name": "Samip Bhrata",
+      "email": "samip@gmail.com",
+      "address": "Bnp-8, Chitwan",
+      "cId": "1"
+    },
+    {
+      "id": "7213",
+      "name": "Abilash Mate",
+      "email": "abilash@gmail.com",
+      "address": "Saptagandaki chowk",
+      "companyId": "2"
+    },
+    {
+      "id": "492f",
+      "name": "Abilash Mate",
+      "email": "abilash@gmail.com",
+      "address": "Saptagandaki chowk",
+      "companyId": "1"
+    },
+    {
+      "id": "8266",
+      "name": "Aman Mate",
+      "email": "amanmahatocsit080@chitwancollege.edu.np",
+      "address": "Chaurali chowk, Chitwan",
+      "companyId": "1"
+    },
+    {
+      "id": "4422",
+      "name": "Samip Bhrata",
+      "email": "samip@gmail.com",
+      "address": "Bnp-8, Chitwan",
+      "companyId": "1"
     }
   ]
 }

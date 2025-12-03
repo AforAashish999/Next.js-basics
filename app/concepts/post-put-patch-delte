@@ -1,0 +1,6 @@
+Correct meaning:
+Method	Meaning
+PUT	Replace the entire object
+PATCH	Update only specific fields
+POST	Create new
+DELETE	Delete item
