@@ -9,7 +9,7 @@ export default function Page({company}) {
     if(error) return <h1> Interns are not showing..............{error.message} </h1>
 
     const filteredInterns = data.filter( (intern) => intern.companyId == company)
-    return(
+    return(  
         <>
         {
             filteredInterns.length === 0 && (

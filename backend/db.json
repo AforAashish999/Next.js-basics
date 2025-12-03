@@ -11,7 +11,9 @@
       "requirements": [
         "JavaScript basics",
         "Node.js knowledge"
-      ]
+      ],
+        "postedDate" : "2025-12-03",
+        "deadline" : "2026-02-10"
     },
     {
       "id": "2",
@@ -24,104 +26,123 @@
       "requirements": [
         "HTML CSS",
         "React basics"
-      ]
+      ],
+       "postedDate" : "2025-12-03",
+        "deadline" : "2026-02-10"
     }
   ],
   "users": [
     {
       "id": "1",
       "name": "Aashish",
-      "email": "aashishgharti@gmail.com"
+      "email": "aashishgharti@gmail.com",
+       "companyId": "1",
+      "companyName": "Full Stack Developer Intern",
+      "address": "Chitwan"
     },
     {
       "id": "2",
       "name": "Sumit",
-      "email": "sumitpoudel@gmail.com"
+      "email": "sumitpoudel@gmail.com",
+       "companyId": "1",
+      "companyName": "Full Stack Developer Intern",
+        "address": "Chitwan"
     },
     {
       "id": "97e3",
-      "name": "aashish12@gmailcm",
+      "name": "john",
+         "email": "cultivator@gmail.com",
       "companyId": "1",
-      "companyName": "Full Stack Developer Intern"
+      "companyName": "Full Stack Developer Intern",
+        "address": "Chitwan"
     },
     {
       "id": "ca3f",
-      "name": "aashish12@gmailcm",
+      "name": "Kashish",
+         "email": "cultivator@gmail.com",
       "companyId": "1",
-      "companyName": "Full Stack Developer Intern"
+      "companyName": "Full Stack Developer Intern",
+        "address": "Kathmandu"
     },
     {
       "id": "325d",
-      "name": "aashish12@gmailcm",
+      "name": "Luo",
+         "email": "cultivator@gmail.com",
       "companyId": "1",
-      "companyName": "Full Stack Developer Intern"
+      "companyName": "Full Stack Developer Intern",
+        "address": "Dharan"
     },
     {
       "id": "29db",
-      "name": "lax@gmail.com",
+      "name": "Clark",
+         "email": "cultivator@gmail.com",
       "companyId": "1",
-      "companyName": "Full Stack Developer Intern"
+      "companyName": "Full Stack Developer Intern",
+        "address": "Pokhara"
     },
     {
       "id": "22d3",
-      "name": "john@gmail.com",
+      "name": "Node",
+         "email": "cultivator@gmail.com",
       "companyId": "2",
-      "companyName": "Frontend Intern"
-    },
-    {
-      "id": "cb56",
-      "name": "john@gmail.com",
-      "companyId": "1",
-      "companyName": "Full Stack Developer Intern"
+      "companyName": "Frontend Intern",
+        "address": "Japan"
     },
     {
       "id": "c768",
       "name": "china",
       "email": "john@gmail.com",
       "companyId": "1",
-      "companyName": "Full Stack Developer Intern"
+      "companyName": "Full Stack Developer Intern",
+        "address": "India"
     },
     {
       "id": "d27e",
       "name": "Aashishh Cultivator",
       "email": "cultivator@gmail.com",
       "companyId": "1",
-      "companyName": "Full Stack Developer Intern"
+      "companyName": "Full Stack Developer Intern",
+        "address": "Chitwan"
     },
     {
       "id": "3332",
       "name": "Zhuo Fan",
       "email": "sect@gmail.com",
       "companyId": "1",
-      "companyName": "Full Stack Developer Intern"
+      "companyName": "Full Stack Developer Intern",
+        "address": "Chitwan"
     },
     {
       "id": "f604",
       "name": "Chyung Myung",
       "email": "swordsaint@gmail.com",
       "companyId": "1",
-      "companyName": "Full Stack Developer Intern"
+      "companyName": "Full Stack Developer Intern",
+        "address": "Chitwan"
     },
     {
       "id": "96a6",
       "name": "bara",
       "email": "bara@gmail.com",
       "companyId": "1",
-      "companyName": "CDL Tech"
+      "companyName": "CDL Tech",
+        "address": "Chitwan"
     },
     {
       "id": "d70a",
       "name": "luffy",
       "email": "luffy@gmail.com",
       "companyId": "2",
-      "companyName": "NextVision"
+      "companyName": "NextVision",
+        "address": "Chitwan"
     },
     {
       "id": "5db0",
       "name": "ash",
       "email": "ash@gmail.com",
       "companyId": "1",
-      "companyName": "CDL Tech"
+      "companyName": "CDL Tech",
+        "address": "Chitwan"
     }
   ]
 }
