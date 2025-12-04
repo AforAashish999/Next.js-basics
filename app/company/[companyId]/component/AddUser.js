@@ -42,8 +42,9 @@ export default function AddUser({ companyId, closePop }) {
 
   return (
     <>
-      <div className="min-h-screen bg-slate-100 flex justify-center items-center">
-        <div className="min-h-0 bg-slate-300 p-12 rounded-lg ">
+      <div className="min-h-screen  flex justify-center items-center
+      bg-white/25 backdrop-blur-sm shadow-sm">
+        <div className="min-h-0 bg-slate-300 p-12 rounded-lg shadow-xl/30 ">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col">
               <label className="text-slate-600 font-bold">Name</label>

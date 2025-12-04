@@ -16,8 +16,9 @@ export default function UpdateUser({closePop, id, name, email, address}) {
 
   return (
     <>
-      <div className="min-h-screen bg-slate-100 flex justify-center items-center">
-        <div className="min-h-0 bg-slate-300 p-12 rounded-lg ">
+      <div className="min-h-screen flex justify-center items-center
+      bg-white/40 backdrop-blur-sm ">
+        <div className="min-h-0 bg-slate-300 p-12 rounded-lg shadow-xl/30 ">
           <form 
           onSubmit={handleSubmit(onSubmit)}
           >

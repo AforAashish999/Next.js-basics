@@ -11,12 +11,17 @@ import AddUser from '../component/AddUser'
 import DelUser from '../component/DelUser'
 import UpdateUser from '../component/UpdateUser'
 import UserDetails from '../component/UserDetails'
+import Search from '../component/Search'
+import Sort from '../component/Sort'
+import { BsFillEmojiSmileUpsideDownFill } from "react-icons/bs";
 
-export default function page () {
+export default function internTable () {
   const { companyId } = useParams()
     const[addForm, setAddForm] = useState(null);
     const[showUpdate, setShowUpdate] = useState(null);
     const[viewDetails, setViewDetails] = useState(null);
+    const[query, setQuery] = useState("");
+    const[sort, setSort] = useState("");
   
   const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_API}/users`,fetcher)
   if (isLoading) return <h1> page is loading....................</h1>
@@ -25,23 +30,39 @@ export default function page () {
   //  const filteredUsers = data.filter((x)=> x.id == companyId )
   //yoa kina milena vnda chai, x.id, vneko users ko id, 1,2 tyo po access gryo
   //tra hmlai companyid chaiyeko ho, so we do x.companyID of users which => we are companring with the companyId->params we aceesed
-  const filteredUsers = data.filter( (x) => x.companyId == companyId)
+  // const filteredUsers = data.filter( (x) => x.companyId == companyId)
+  //which companyId is which and comparing to companyId
+  const filteredUsers = data
+  .filter(user => user.companyId == companyId)
+  .filter(user => user.name.toLowerCase().includes(query.toLowerCase()));
+
+  //for sorting logic
+  if(sort === "asc" ){
+    filteredUsers.sort((a,b) => a.name.localeCompare(b.name))
+    console.log("sorting logic was used")
+  }
+  if(sort === "desc"){
+    filteredUsers.sort((a,b) => b.name.localeCompare(a.name))
+  }
+
   console.log('company intern list: ', filteredUsers)
-
-
   return (
     <Suspense fallback={<div>Please wait</div>}>
       <div className='min-h-screen  flex flex-col '>
 
-
           {/* add new intern button */}
-  <div className='flex justify-end mb-10 '> 
+        <div className='flex justify-end mb-10 '> 
         <button onClick={()=>setAddForm(companyId)}
          className='flex items-center  px-5 py-3 gap-2 bg-blue-700 rounded-lg cursor-pointer
          transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl/20 '>
             <IoPersonAdd className='text-white size-5' />
         <h2 className='text- text-white'> Add New Intern </h2>
         </button>
+        </div>
+        {/* SEARCH BAR AND SORTING BAR */}
+        <div className='flex justify-between mb-5'>
+          <Search query={query} setQuery={setQuery} />
+          <Sort sort={sort} setSort={setSort} />
         </div>
         
         <table className='border-separate border-spacing-0 rounded-lg overflow-hidden '>
@@ -53,59 +74,47 @@ export default function page () {
               <th className=' tracking-wide px-15 py-5'> Actions </th>
             </tr>
           </thead>
-
           <tbody className='bg-white '>
-            {filteredUsers.map(applicant => (
+          {
+              filteredUsers.length === 0? (
+                <tr>  
+                  <td className='colSpan-4 p-40' colSpan={4}>
+                    <div className='flex items-center justify-center gap-5 '> 
+                    <BsFillEmojiSmileUpsideDownFill className='size-15' /> 
+                    <h2 className='text-5xl'> NO User Found </h2> 
+                    </div> </td>
+                </tr>
+              ):
+            filteredUsers.map(applicant => (
               <tr key={applicant.id}>
-                <td className='border-gray-200 border-b py-3 px-5 '>
-                  {' '}
-                  {applicant.name}{' '}
-                </td>
-                <td className='border-gray-200 border-b p-3 '>
-                  {' '}
-                  {applicant.email}{' '}
-                </td>
-                <td className='border-gray-200 border-b p-3'>
-                  {' '}
-                  {applicant.address}{' '}
-                </td>
+                <td className='border-gray-200 border-b py-3 px-5 '>{applicant.name}</td>
+                <td className='border-gray-200 border-b p-3 '>{applicant.email}</td>
+                <td className='border-gray-200 border-b p-3'> {applicant.address} </td>
                 <td className='border-gray-200 border-b p-3 flex justify-around '>
-
                   {/* VIEW BUTTON */}
                   <div>
                     <button onClick={()=>setViewDetails(applicant)}
-                     className='cursor-pointer'>
-                      {' '}
-                      <FaRegEye className='text-slate-500' />{' '}
+                     className='cursor-pointer transition-all duration-300 hover:scale-110 hover:opacity-70'>
+                      <FaRegEye className='text-slate-500' />
                     </button>
                   </div>
-
                   {/* UPDATE BUTTON*/}
                   <div>
                     <button onClick={()=> setShowUpdate(applicant)}
                     className='cursor-pointer transition-all duration-200 hover:text-blue-900 hover:scale-120'>
-                      {' '}
-                      <LuFolderPen className='text-blue-600' />{' '}
+                      <LuFolderPen className='text-blue-600 ' />
                     </button>
                   </div>
                   <div>
                     {/* DELETE BUTTON */}
-                    {/*  transition-all duration-300 hover:scale-105 */}
-                    {/* <button className='cursor-pointer transition-all duration-600 hover:-rotate-180'>
-                      {' '}
-                      <RiDeleteBin6Fill className='text-red-600' />{' '}
-                    </button> */}
-                    <DelUser
-                     id={applicant.id} />
-
+                    <DelUser id={applicant.id} />
                   </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-
-        </div>
+      </div>
         {/* Registration Form Popup */}
         {
           addForm && (
@@ -134,7 +143,7 @@ export default function page () {
         {
           viewDetails && (
             <div className='fixed inset-0'>
-              <UserDetails id={viewDetails.id} />
+              <UserDetails id={viewDetails.id} closePop={()=>setViewDetails(null)} />
               {/* i cant make userdetails server component as it showed error here */}
             </div>
           )

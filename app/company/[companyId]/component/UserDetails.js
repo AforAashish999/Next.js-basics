@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa";
 import { MdMarkEmailUnread } from "react-icons/md";
 import { FaHome } from "react-icons/fa";
 
-export default  function userDetails({id}) {
+export default  function userDetails({id, closePop}) {
     const{data, error, isLoading} = useSWR(`${process.env.NEXT_PUBLIC_API}/users/${id}`, fetcher);
      if (isLoading) return <h1> page is loading....................</h1>
   if (error)
@@ -14,21 +14,25 @@ export default  function userDetails({id}) {
 // const data = await fetch(response.json());
   return (
     <>
-      <div className="min-h-screen bg-slate-100 flex justify-center items-center">
-        <div className="min-h-0 bg-slate-300 p-12 rounded-lg ">
-                    <div>
-                        <FaUser /> 
-                       <h2> {data.name} </h2>  
+      <div className="min-h-screen  flex justify-center items-center
+                      bg-white/30 backdrop-blur-none shadow-sm ">
+        <div className="min-h-90 bg-slate-300 p-12 rounded-lg flex flex-col justify-around shadow-xl/30 ">
+                    <div className="flex items-center gap-4">
+                        <FaUser className="size-9" /> 
+                       <h2 className="text-2xl"> {data.name} </h2>  
                     </div>
 
-                     <div>
-                     <MdMarkEmailUnread />
-                       <h2>{data.email} </h2>  
+                     <div className="flex items-center gap-4">
+                     <MdMarkEmailUnread className="size-9" />
+                       <h2 className="text-2xl">{data.email} </h2>  
                     </div>
-                    <div>
-                     <FaHome />
-                       <h2>{data.address} </h2>  
+                    <div className="flex items-center gap-4">
+                     <FaHome className="size-9"/>
+                       <h2 className="text-2xl">{data.address} </h2>  
                     </div>   
+                    <button onClick={closePop} 
+                    className="bg-blue-600 mt-10 px-5 py-3 rounded-lg text-white font-bold cursor-pointer hover:bg-blue-900">
+                       Close </button>
 
                     
         </div>
