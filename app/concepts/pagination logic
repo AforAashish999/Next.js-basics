@@ -1,0 +1,857 @@
+/*
+pagiantion from frontend
+ChatGPT said:
+
+Ah, got it mate — you want frontend pagination, meaning you fetch all the users at once and then slice them per page in the UI, without relying on the backend. This is simpler for a fake API. Here’s how to do it:
+
+1️⃣ State for pagination
+const [currentPage, setCurrentPage] = useState(1);
+const itemsPerPage = 5; // number of users per page
+
+2️⃣ Slice your filteredUsers for current page
+const startIndex = (currentPage - 1) * itemsPerPage;
+const endIndex = startIndex + itemsPerPage;
+const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+
+3️⃣ Render table rows with paginated data
+
+Replace:
+
+filteredUsers.map(applicant => (
+
+
+with:
+
+paginatedUsers.map(applicant => (
+
+4️⃣ Pagination controls
+<div className="flex justify-center gap-4 mt-5">
+  <button
+    disabled={currentPage === 1}
+    onClick={() => setCurrentPage(currentPage - 1)}
+    className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+  >
+    Previous
+  </button>
+
+  <span>Page {currentPage} of {Math.ceil(filteredUsers.length / itemsPerPage)}</span>
+
+  <button
+    disabled={currentPage === Math.ceil(filteredUsers.length / itemsPerPage)}
+    onClick={() => setCurrentPage(currentPage + 1)}
+    className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+  >
+    Next
+  </button>
+</div>
+
+
+✅ Key points:
+
+Works entirely on frontend — no backend query changes.
+
+Combines nicely with your search & sorting.
+
+Simple to add “items per page” selector if needed.
+
+Only filteredUsers changes will recalc the pagination.
+
+If you want, I can rewrite your internTable component with debounced search + frontend pagination + sorting, so it’s clean and smooth.
+
+Do you want me to do that?
+
+You said:
+where should i put the pagination logic, in new compoennt or in interntable
+ChatGPT said:
+
+For your case, the pagination logic should stay inside internTable. Here’s why:
+
+Pagination depends on filteredUsers, which is already computed in internTable from search & sorting.
+
+It’s tightly coupled with your table display — slicing filteredUsers per page.
+
+Creating a separate component is possible, but you’d need to pass filtered users, current page, and a setter to it, which is overkill for a simple table.
+
+✅ Best practice for now: Keep it inside internTable right above where you map users for table rows. Only the pagination controls (Next/Previous buttons) could optionally be a small child component if you want to clean up the JSX.
+
+If you want, I can integrate it into your current internTable with search and sorting so it works end-to-end.
+
+You said:
+yes show me in my code
+ChatGPT said:
+
+Perfect! Let's integrate frontend pagination directly into your internTable component while keeping your search and sorting intact. We'll add a current page state, calculate paginated users, and render Next/Previous buttons.
+
+Here’s the updated code:
+
+'use client'
+import useSWR from 'swr'
+import { useState, useEffect } from 'react'
+import { useParams } from 'next/navigation'
+import { LuFolderPen } from 'react-icons/lu'
+import { FaRegEye } from 'react-icons/fa6'
+import { IoPersonAdd } from 'react-icons/io5'
+import AddUser from '../component/AddUser'
+import DelUser from '../component/DelUser'
+import UpdateUser from '../component/UpdateUser'
+import UserDetails from '../component/UserDetails'
+import Search from '../component/Search'
+import Sort from '../component/Sort'
+import { BsFillEmojiSmileUpsideDownFill } from "react-icons/bs"
+
+const fetcher = url => fetch(url).then(res => res.json())
+
+// Debounce hook
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value)
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay)
+    return () => clearTimeout(timer)
+  }, [value, delay])
+  return debouncedValue
+}
+
+export default function internTable() {
+  const { companyId } = useParams()
+  const [addForm, setAddForm] = useState(null)
+  const [showUpdate, setShowUpdate] = useState(null)
+  const [viewDetails, setViewDetails] = useState(null)
+  const [query, setQuery] = useState("")
+  const [sort, setSort] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 5 // number of rows per page
+
+  const debouncedQuery = useDebounce(query, 300)
+
+  const { data, error, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_API}/users?companyId=${companyId}&name_like=${debouncedQuery}`,
+    fetcher
+  )
+
+  if (isLoading) return <h1>Page is loading...</h1>
+  if (error) return <h1>Error loading data: {error.message}</h1>
+
+  const filteredUsers = data || []
+
+  // Sorting
+  if (sort === "asc") filteredUsers.sort((a, b) => a.name.localeCompare(b.name))
+  if (sort === "desc") filteredUsers.sort((a, b) => b.name.localeCompare(a.name))
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage)
+
+  return (
+    <div className='min-h-screen flex flex-col'>
+      {/* Add New Intern Button */}
+      <div className='flex justify-end mb-10'>
+        <button onClick={() => setAddForm(companyId)}
+          className='flex items-center px-5 py-3 gap-2 bg-blue-700 rounded-lg cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl/20'>
+          <IoPersonAdd className='text-white size-5' />
+          <h2 className='text-white'>Add New Intern</h2>
+        </button>
+      </div>
+
+      {/* Search & Sort */}
+      <div className='flex justify-between mb-5'>
+        <Search query={query} setQuery={setQuery} />
+        <Sort sort={sort} setSort={setSort} />
+      </div>
+
+      {/* Table */}
+      <table className='border-separate border-spacing-0 rounded-lg overflow-hidden'>
+        <thead>
+          <tr className='bg-slate-300'>
+            <th className='px-20 py-8'>Name</th>
+            <th className='px-25 py-5'>Email</th>
+            <th className='px-20 py-5'>Address</th>
+            <th className='px-15 py-5'>Actions</th>
+          </tr>
+        </thead>
+        <tbody className='bg-white'>
+          {paginatedUsers.length === 0 ? (
+            <tr>
+              <td colSpan={4} className='p-40'>
+                <div className='flex items-center justify-center gap-5'>
+                  <BsFillEmojiSmileUpsideDownFill className='size-15' />
+                  <h2 className='text-5xl'>NO User Found</h2>
+                </div>
+              </td>
+            </tr>
+          ) : (
+            paginatedUsers.map(applicant => (
+              <tr key={applicant.id}>
+                <td className='border-gray-200 border-b py-3 px-5'>{applicant.name}</td>
+                <td className='border-gray-200 border-b p-3'>{applicant.email}</td>
+                <td className='border-gray-200 border-b p-3'>{applicant.address}</td>
+                <td className='border-gray-200 border-b p-3 flex justify-around'>
+                  <button onClick={() => setViewDetails(applicant)} className='cursor-pointer transition-all duration-300 hover:scale-110 hover:opacity-70'>
+                    <FaRegEye className='text-slate-500' />
+                  </button>
+                  <button onClick={() => setShowUpdate(applicant)} className='cursor-pointer transition-all duration-200 hover:text-blue-900 hover:scale-120'>
+                    <LuFolderPen className='text-blue-600' />
+                  </button>
+                  <DelUser id={applicant.id} />
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+
+      {/* Pagination Controls */}
+      <div className='flex justify-center gap-4 mt-5'>
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(prev => prev - 1)}
+          className='bg-gray-300 px-4 py-2 rounded disabled:opacity-50'
+        >
+          Previous
+        </button>
+        <span className='px-4 py-2'>{currentPage} / {totalPages}</span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(prev => prev + 1)}
+          className='bg-gray-300 px-4 py-2 rounded disabled:opacity-50'
+        >
+          Next
+        </button>
+      </div>
+
+      {/* Modals */}
+      {addForm && <AddUser companyId={companyId} closePop={() => setAddForm(null)} />}
+      {showUpdate && <UpdateUser closePop={() => setShowUpdate(null)} {...showUpdate} />}
+      {viewDetails && <UserDetails id={viewDetails.id} closePop={() => setViewDetails(null)} />}
+    </div>
+  )
+}
+
+✅ Key Points:
+
+currentPage controls which slice of filteredUsers is displayed.
+
+itemsPerPage controls how many rows per page.
+
+paginatedUsers is sliced from filteredUsers based on currentPage.
+
+Pagination buttons are disabled at first/last page.
+
+Search works with debounce and updates the SWR URL.
+
+If you want, I can also make the pagination reset to page 1 when you type in the search box so users don’t stay on a wrong page with no results.
+
+Do you want me to do that?
+
+You said:
+dont include debounce for now, give the pagaination logic in this code
+import useSWR from 'swr'
+import { useState } from 'react'
+const fetcher = url => fetch(url).then(res => res.json())
+import { useParams } from 'next/navigation'
+import { LuFolderPen } from 'react-icons/lu'
+import { FaRegEye } from 'react-icons/fa6'
+import { Suspense } from 'react'
+import { IoPersonAdd } from 'react-icons/io5'
+import AddUser from '../component/AddUser'
+import DelUser from '../component/DelUser'
+import UpdateUser from '../component/UpdateUser'
+import UserDetails from '../component/UserDetails'
+import Search from '../component/Search'
+import Sort from '../component/Sort'
+import { BsFillEmojiSmileUpsideDownFill } from "react-icons/bs";
+
+export default function internTable () {
+  const { companyId } = useParams()
+    const[addForm, setAddForm] = useState(null);
+    const[showUpdate, setShowUpdate] = useState(null);
+    const[viewDetails, setViewDetails] = useState(null);
+    const[query, setQuery] = useState("");
+    const[sort, setSort] = useState("");
+  
+  const { data, error, isLoading, mutuate } = useSWR(${process.env.NEXT_PUBLIC_API}/users,fetcher)
+  if (isLoading) return <h1> page is loading....................</h1>
+  if (error)
+    return <h1> This page cant be open.................... {error.message} </h1>
+  //  const filteredUsers = data.filter((x)=> x.id == companyId )
+  //yoa kina milena vnda chai, x.id, vneko users ko id, 1,2 tyo po access gryo
+  //tra hmlai companyid chaiyeko ho, so we do x.companyID of users which => we are companring with the companyId->params we aceesed
+  // const filteredUsers = data.filter( (x) => x.companyId == companyId)
+  //which companyId is which and comparing to companyId
+  const filteredUsers = data
+  .filter(user => user.companyId == companyId)
+  .filter(user => user.name.toLowerCase().includes(query.toLowerCase()));
+
+  //for sorting logic
+  if(sort === "asc" ){
+    filteredUsers.sort((a,b) => a.name.localeCompare(b.name))
+    console.log("sorting logic was used")
+  }
+  if(sort === "desc"){
+    filteredUsers.sort((a,b) => b.name.localeCompare(a.name))
+  }
+
+  console.log('company intern list: ', filteredUsers)
+  return (
+    <Suspense fallback={<div>Please wait</div>}>
+      <div className='min-h-screen  flex flex-col '>
+
+          {/* add new intern button */}
+        <div className='flex justify-end mb-10 '> 
+        <button onClick={()=>setAddForm(companyId)}
+         className='flex items-center  px-5 py-3 gap-2 bg-blue-700 rounded-lg cursor-pointer
+         transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl/20 '>
+            <IoPersonAdd className='text-white size-5' />
+        <h2 className='text- text-white'> Add New Intern </h2>
+        </button>
+        </div>
+        {/* SEARCH BAR AND SORTING BAR */}
+        <div className='flex justify-between mb-5'>
+          <Search query={query} setQuery={setQuery} />
+          <Sort sort={sort} setSort={setSort} />
+        </div>
+        
+        <table className='border-separate border-spacing-0 rounded-lg overflow-hidden '>
+          <thead >
+            <tr className='bg-slate-300'>
+              <th className=' tracking-wide px-20 py-8 '> Name </th>
+              <th className=' tracking-wide px-25 py-5'> Email </th>
+              <th className=' tracking-wide px-20 py-5'> Address </th>
+              <th className=' tracking-wide px-15 py-5'> Actions </th>
+            </tr>
+          </thead>
+          <tbody className='bg-white '>
+          {
+              filteredUsers.length === 0? (
+                <tr>  
+                  <td className='colSpan-4 p-40' colSpan={4}>
+                    <div className='flex items-center justify-center gap-5 '> 
+                    <BsFillEmojiSmileUpsideDownFill className='size-15' /> 
+                    <h2 className='text-5xl'> NO User Found </h2> 
+                    </div> </td>
+                </tr>
+              ):
+            filteredUsers.map(applicant => (
+              <tr key={applicant.id}>
+                <td className='border-gray-200 border-b py-3 px-5 '>{applicant.name}</td>
+                <td className='border-gray-200 border-b p-3 '>{applicant.email}</td>
+                <td className='border-gray-200 border-b p-3'> {applicant.address} </td>
+                <td className='border-gray-200 border-b p-3 flex justify-around '>
+                  {/* VIEW BUTTON */}
+                  <div>
+                    <button onClick={()=>setViewDetails(applicant)}
+                     className='cursor-pointer transition-all duration-300 hover:scale-110 hover:opacity-70'>
+                      <FaRegEye className='text-slate-500' />
+                    </button>
+                  </div>
+                  {/* UPDATE BUTTON*/}
+                  <div>
+                    <button onClick={()=> setShowUpdate(applicant)}
+                    className='cursor-pointer transition-all duration-200 hover:text-blue-900 hover:scale-120'>
+                      <LuFolderPen className='text-blue-600 ' />
+                    </button>
+                  </div>
+                  <div>
+                    {/* DELETE BUTTON */}
+                    <DelUser
+                     id={applicant.id} 
+                     />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+        {/* Registration Form Popup */}
+        {
+          addForm && (
+            <div className='fixed inset-0'> 
+              <AddUser 
+              companyId={companyId}
+               closePop={()=>setAddForm(null)} />
+            </div>
+           
+          )
+        }
+        {/* Update form Popup */}
+        {
+          showUpdate && (
+            <div className='fixed inset-0'> 
+            <UpdateUser 
+            closePop={()=>setShowUpdate(null)} 
+            id={showUpdate.id}
+             name={showUpdate.name}
+              email={showUpdate.email} 
+              address={showUpdate.address}/>
+            </div>
+          )
+        }
+        {/* VIEW DETAILS */}
+        {
+          viewDetails && (
+            <div className='fixed inset-0'>
+              <UserDetails id={viewDetails.id} closePop={()=>setViewDetails(null)} />
+              {/* i cant make userdetails server component as it showed error here */}
+            </div>
+          )
+        }
+      
+    </Suspense>
+  )
+}
+ChatGPT said:
+
+Got it! Let’s add frontend pagination directly into your internTable component without debounce, so your existing search and sorting work, and the table is paginated.
+
+Here’s the updated version with pagination logic:
+
+'use client'
+import useSWR from 'swr'
+import { useState } from 'react'
+import { useParams } from 'next/navigation'
+import { LuFolderPen } from 'react-icons/lu'
+import { FaRegEye } from 'react-icons/fa6'
+import { IoPersonAdd } from 'react-icons/io5'
+import AddUser from '../component/AddUser'
+import DelUser from '../component/DelUser'
+import UpdateUser from '../component/UpdateUser'
+import UserDetails from '../component/UserDetails'
+import Search from '../component/Search'
+import Sort from '../component/Sort'
+import { BsFillEmojiSmileUpsideDownFill } from "react-icons/bs"
+
+const fetcher = url => fetch(url).then(res => res.json())
+
+export default function internTable() {
+  const { companyId } = useParams()
+  const [addForm, setAddForm] = useState(null)
+  const [showUpdate, setShowUpdate] = useState(null)
+  const [viewDetails, setViewDetails] = useState(null)
+  const [query, setQuery] = useState("")
+  const [sort, setSort] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 5 // number of rows per page
+
+  const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_API}/users`, fetcher)
+  if (isLoading) return <h1>Page is loading...</h1>
+  if (error) return <h1>Error: {error.message}</h1>
+
+  // Filter by company and search query
+  const filteredUsers = (data || [])
+    .filter(user => user.companyId == companyId)
+    .filter(user => user.name.toLowerCase().includes(query.toLowerCase()))
+
+  // Sorting
+  if (sort === "asc") filteredUsers.sort((a, b) => a.name.localeCompare(b.name))
+  if (sort === "desc") filteredUsers.sort((a, b) => b.name.localeCompare(a.name))
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage)
+
+  // Reset to page 1 if query changes
+  const handleSearch = (value) => {
+    setQuery(value)
+    setCurrentPage(1)
+  }
+
+  return (
+    <div className='min-h-screen flex flex-col'>
+      {/* Add New Intern Button */}
+      <div className='flex justify-end mb-10'>
+        <button onClick={() => setAddForm(companyId)}
+          className='flex items-center px-5 py-3 gap-2 bg-blue-700 rounded-lg cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-xl/20'>
+          <IoPersonAdd className='text-white size-5' />
+          <h2 className='text-white'>Add New Intern</h2>
+        </button>
+      </div>
+
+      {/* Search & Sort */}
+      <div className='flex justify-between mb-5'>
+        <Search query={query} setQuery={handleSearch} />
+        <Sort sort={sort} setSort={setSort} />
+      </div>
+
+      {/* Table */}
+      <table className='border-separate border-spacing-0 rounded-lg overflow-hidden'>
+        <thead>
+          <tr className='bg-slate-300'>
+            <th className='px-20 py-8'>Name</th>
+            <th className='px-25 py-5'>Email</th>
+            <th className='px-20 py-5'>Address</th>
+            <th className='px-15 py-5'>Actions</th>
+          </tr>
+        </thead>
+        <tbody className='bg-white'>
+          {paginatedUsers.length === 0 ? (
+            <tr>
+              <td colSpan={4} className='p-40'>
+                <div className='flex items-center justify-center gap-5'>
+                  <BsFillEmojiSmileUpsideDownFill className='size-15' />
+                  <h2 className='text-5xl'>NO User Found</h2>
+                </div>
+              </td>
+            </tr>
+          ) : (
+            paginatedUsers.map(applicant => (
+              <tr key={applicant.id}>
+                <td className='border-gray-200 border-b py-3 px-5'>{applicant.name}</td>
+                <td className='border-gray-200 border-b p-3'>{applicant.email}</td>
+                <td className='border-gray-200 border-b p-3'>{applicant.address}</td>
+                <td className='border-gray-200 border-b p-3 flex justify-around'>
+                  <button onClick={() => setViewDetails(applicant)} className='cursor-pointer transition-all duration-300 hover:scale-110 hover:opacity-70'>
+                    <FaRegEye className='text-slate-500' />
+                  </button>
+                  <button onClick={() => setShowUpdate(applicant)} className='cursor-pointer transition-all duration-200 hover:text-blue-900 hover:scale-120'>
+                    <LuFolderPen className='text-blue-600' />
+                  </button>
+                  <DelUser id={applicant.id} />
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+
+      {/* Pagination Controls */}
+      <div className='flex justify-center gap-4 mt-5'>
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(prev => prev - 1)}
+          className='bg-gray-300 px-4 py-2 rounded disabled:opacity-50'
+        >
+          Previous
+        </button>
+        <span className='px-4 py-2'>{currentPage} / {totalPages}</span>
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(prev => prev + 1)}
+          className='bg-gray-300 px-4 py-2 rounded disabled:opacity-50'
+        >
+          Next
+        </button>
+      </div>
+
+      {/* Modals */}
+      {addForm && <AddUser companyId={companyId} closePop={() => setAddForm(null)} />}
+      {showUpdate && <UpdateUser closePop={() => setShowUpdate(null)} {...showUpdate} />}
+      {viewDetails && <UserDetails id={viewDetails.id} closePop={() => setViewDetails(null)} />}
+    </div>
+  )
+}
+
+✅ Key Points:
+
+Added currentPage state to track current page.
+
+itemsPerPage determines how many rows per page.
+
+paginatedUsers slices filteredUsers based on current page.
+
+Pagination buttons allow moving forward/backward and are disabled on first/last page.
+
+Reset page to 1 when search query changes (handleSearch).
+
+If you want, I can also add page number buttons dynamically so users can jump directly to any page instead of just "Next/Previous".
+
+Do you want me to do that?
+
+You said:
+now plz teach me the logic u used for the paginatin
+ChatGPT said:
+
+Absolutely mate! Let’s break down the frontend pagination logic I used in your table step by step, so you can understand it fully and maybe tweak it later.
+
+1️⃣ Track the current page
+
+We added a state variable:
+
+const [currentPage, setCurrentPage] = useState(1)
+
+
+This tells us which page is currently visible.
+
+Starts from page 1.
+
+2️⃣ Decide how many items per page
+const itemsPerPage = 5
+
+
+This is how many rows of data we want to show per page.
+
+You can change it to 10, 20, etc., depending on your UI.
+
+3️⃣ Calculate total pages
+const totalPages = Math.ceil(filteredUsers.length / itemsPerPage)
+
+
+filteredUsers.length = total number of items after search & sorting.
+
+Divide by itemsPerPage to get total pages.
+
+Math.ceil() ensures we round up, so even if there are leftover items, they get their own page.
+
+4️⃣ Slice data for the current page
+const startIndex = (currentPage - 1) * itemsPerPage
+const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage)
+
+
+startIndex is the index of the first item on the current page.
+
+Example: page 1 → (1-1)*5 = 0 → start at 0
+page 2 → (2-1)*5 = 5 → start at 5
+
+slice(startIndex, startIndex + itemsPerPage) picks exactly itemsPerPage rows from the array.
+
+So if itemsPerPage = 5, page 1 will show users 0-4, page 2 shows 5-9, and so on.
+
+5️⃣ Reset page when search changes
+const handleSearch = (value) => {
+  setQuery(value)
+  setCurrentPage(1)
+}
+
+
+Every time the user types a search term, we reset to page 1.
+
+Otherwise, if you are on page 3 and type something, page 3 might not exist anymore.
+
+6️⃣ Pagination buttons
+<button disabled={currentPage === 1} onClick={() => setCurrentPage(prev => prev - 1)}>Previous</button>
+<button disabled={currentPage === totalPages} onClick={() => setCurrentPage(prev => prev + 1)}>Next</button>
+
+
+Previous decreases the page by 1 but is disabled on first page.
+
+Next increases the page by 1 but is disabled on last page.
+
+currentPage keeps track of which slice to show.
+
+✅ Summary of the flow
+
+Filter data by companyId and search query.
+
+Sort the filtered data if needed.
+
+Calculate total pages and start index.
+
+Slice the array to show only items for the current page.
+
+Render the table rows with paginatedUsers.
+
+Change currentPage using buttons to see the next/previous set of items.
+
+If you want, I can draw a small diagram showing how the array is sliced page by page—it makes this concept much easier to visualize.
+
+Do you want me to do that?
+
+You said:
+but, if i want like this prev 1,2,3,4, depending on page, next
+ChatGPT said:
+
+Ah, I get you mate! You want numbered pagination instead of just “Previous / Next.” This is very common and more user-friendly. Let me explain the logic and how to implement it in your existing code.
+
+1️⃣ Keep the same state
+const [currentPage, setCurrentPage] = useState(1)
+const itemsPerPage = 5
+
+2️⃣ Calculate total pages
+const totalPages = Math.ceil(filteredUsers.length / itemsPerPage)
+
+
+This tells us how many page numbers we need to show.
+
+3️⃣ Generate an array of page numbers
+const pageNumbers = []
+for(let i = 1; i <= totalPages; i++) {
+  pageNumbers.push(i)
+}
+
+
+This array [1,2,3,...] is what we will render as buttons.
+
+4️⃣ Slice the data for current page
+const startIndex = (currentPage - 1) * itemsPerPage
+const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage)
+
+
+Same as before, only showing rows for the selected page.
+
+5️⃣ Render the buttons
+<div className="flex justify-center gap-2 mt-5">
+  <button 
+    disabled={currentPage === 1} 
+    onClick={() => setCurrentPage(prev => prev - 1)}
+    className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+  >
+    Prev
+  </button>
+
+  {pageNumbers.map(num => (
+    <button 
+      key={num} 
+      onClick={() => setCurrentPage(num)}
+      className={`px-3 py-1 rounded ${currentPage === num ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+    >
+      {num}
+    </button>
+  ))}
+
+  <button 
+    disabled={currentPage === totalPages} 
+    onClick={() => setCurrentPage(prev => prev + 1)}
+    className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+  >
+    Next
+  </button>
+</div>
+
+
+Prev / Next buttons work as before.
+
+Numbered buttons let the user jump to any page.
+
+Highlight the current page using bg-blue-500 text-white.
+
+6️⃣ Connect to your table
+<tbody className='bg-white '>
+  {paginatedUsers.map(applicant => (
+    <tr key={applicant.id}>
+      <td>{applicant.name}</td>
+      <td>{applicant.email}</td>
+      <td>{applicant.address}</td>
+      <td>Actions...</td>
+    </tr>
+  ))}
+</tbody>
+
+
+Replace filteredUsers.map with paginatedUsers.map so only the current page shows.
+
+✅ With this setup:
+
+If you have 20 users and itemsPerPage=5, page numbers will be 1 2 3 4.
+
+Clicking a number updates the table instantly.
+
+Prev / Next buttons navigate sequentially.
+
+If you want, I can rewrite your full internTable component with this numbered pagination integrated so you can just drop it in.
+
+Do you want me to do that?
+
+You said:
+plz explain the logic too
+ChatGPT said:
+
+Absolutely mate! Let’s break the numbered pagination logic step by step so you really understand what’s happening. I’ll explain using your context of showing interns in a table.
+
+1️⃣ Track the current page
+const [currentPage, setCurrentPage] = useState(1)
+
+
+We need to know which page the user is currently on.
+
+Default is page 1.
+
+2️⃣ Decide how many items per page
+const itemsPerPage = 5
+
+
+This tells the app: "Show 5 interns per page".
+
+You can increase or decrease depending on your table size.
+
+3️⃣ Calculate total pages
+const totalPages = Math.ceil(filteredUsers.length / itemsPerPage)
+
+
+filteredUsers.length → total number of users after search & filter.
+
+Divide by itemsPerPage → gives how many full pages we need.
+
+Math.ceil → rounds up in case the last page has fewer items.
+
+Example:
+
+17 users, 5 per page → 17 / 5 = 3.4 → Math.ceil(3.4) = 4 pages
+
+4️⃣ Create an array of page numbers
+const pageNumbers = []
+for(let i = 1; i <= totalPages; i++) {
+  pageNumbers.push(i)
+}
+
+
+This gives [1,2,3,4] in the above example.
+
+Each number becomes a clickable button in the UI.
+
+5️⃣ Slice the data for the current page
+const startIndex = (currentPage - 1) * itemsPerPage
+const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage)
+
+
+startIndex → first index of the current page.
+
+slice(startIndex, startIndex + itemsPerPage) → selects only the users for that page.
+
+Example:
+
+currentPage = 2, itemsPerPage = 5 → startIndex = (2-1)*5 = 5
+
+slice(5, 10) → takes users 6th to 10th.
+
+6️⃣ Render the table with paginated users
+<tbody>
+  {paginatedUsers.map(user => (
+    <tr key={user.id}>
+      <td>{user.name}</td>
+      <td>{user.email}</td>
+      <td>{user.address}</td>
+    </tr>
+  ))}
+</tbody>
+
+
+Instead of mapping over all filtered users, we map only over the current page slice.
+
+7️⃣ Render page navigation buttons
+<div className="flex justify-center gap-2 mt-5">
+  <button disabled={currentPage === 1} onClick={() => setCurrentPage(prev => prev - 1)}>Prev</button>
+
+  {pageNumbers.map(num => (
+    <button 
+      key={num} 
+      onClick={() => setCurrentPage(num)}
+      className={currentPage === num ? 'bg-blue-500 text-white' : 'bg-gray-200'}
+    >
+      {num}
+    </button>
+  ))}
+
+  <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(prev => prev + 1)}>Next</button>
+</div>
+
+
+Prev / Next buttons decrease or increase currentPage.
+
+Number buttons jump directly to that page.
+
+Highlight current page for better UX.
+
+✅ Key Idea
+
+The logic is basically:
+
+Keep track of current page.
+
+Show only the subset of users for that page (slice).
+
+Render buttons for all page numbers + Prev/Next.
+
+Update currentPage when user clicks a button.
+
+This is all frontend pagination, meaning the browser only shows a portion of the data at a time, without asking the backend for each page.

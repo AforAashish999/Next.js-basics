@@ -15,8 +15,8 @@ export default  function userDetails({id, closePop}) {
   return (
     <>
       <div className="min-h-screen  flex justify-center items-center
-                      bg-white/30 backdrop-blur-none shadow-sm ">
-        <div className="min-h-90 bg-slate-300 p-12 rounded-lg flex flex-col justify-around shadow-xl/30 ">
+                      bg-white/30 backdrop-blur-sm shadow-sm ">
+        <div className="min-h-90 bg-slate-200 p-12 rounded-lg flex flex-col justify-around shadow-xl/30 ">
                     <div className="flex items-center gap-4">
                         <FaUser className="size-9" /> 
                        <h2 className="text-2xl"> {data.name} </h2>  

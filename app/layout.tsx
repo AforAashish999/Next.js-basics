@@ -7,6 +7,7 @@ import { Noto_Sans_Javanese } from "next/font/google";
 import { Cedarville_Cursive } from "next/font/google";
 // import localFont from "next/font/local";
 import Nav from "./component/Nav.js"
+import { Toaster } from "sonner";
 
 //to use in tailwind css we add variable property too
 
@@ -66,6 +67,7 @@ export default function RootLayout({
             <Nav />
            </header>
         {children}
+        <Toaster position="top-right" richColors />
         {/* <footer>
           <h1 className="text-center p-5 mt-10 rounded-2xl bg-black text-white"> © 2024 Aashish Gharti </h1>
         </footer> */}

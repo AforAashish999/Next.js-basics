@@ -1,5 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import {mutate} from 'swr';
 
 export default function AddUser({ companyId, closePop }) {
   const {
@@ -32,8 +34,22 @@ export default function AddUser({ companyId, closePop }) {
       console.log("User Details", userDetails);
       reset();
       closePop();
-      alert("User Added");
-      window.location.reload();
+      // alert("User Added");
+      toast.success("User Added Successfully", {
+        // unstyled: true,
+        //  description: "The intern has been added to the list.",
+         duration: 4000,
+        // className: "bg-blue-600 text-white font-bold rounded-lg shadow-xl/25 px-6 py-4",
+        // style: {
+        //   backgroundColor: "#2563eb",
+        //   color: "white",
+        // }
+        
+      });
+
+      // window.location.reload();
+      //instead of using window relaod, i got the advice to use mutuate from swr to update data automatically
+      mutate(`${process.env.NEXT_PUBLIC_API}/users`);
     } catch (err) {
       console.error(err);
       alert("Submission Failed");
@@ -44,7 +60,7 @@ export default function AddUser({ companyId, closePop }) {
     <>
       <div className="min-h-screen  flex justify-center items-center
       bg-white/25 backdrop-blur-sm shadow-sm">
-        <div className="min-h-0 bg-slate-300 p-12 rounded-lg shadow-xl/30 ">
+        <div className="min-h-0 bg-slate-200 p-12 rounded-lg shadow-xl/30 ">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col">
               <label className="text-slate-600 font-bold">Name</label>

@@ -49,13 +49,6 @@
       "address": "Chitwan"
     },
     {
-      "id": "13b9",
-      "name": "Samip Bhrata",
-      "email": "samip@gmail.com",
-      "address": "Bnp-8, Chitwan",
-      "cId": "1"
-    },
-    {
       "id": "c00a",
       "name": "Samip Bhrata",
       "email": "samip@gmail.com",
@@ -68,41 +61,6 @@
       "email": "abilash@gmail.com",
       "address": "Saptagandaki chowk",
       "companyId": "2"
-    },
-    {
-      "id": "2f6c",
-      "name": "Samip Bhrata",
-      "email": "aashish@gmail.com",
-      "address": "Bnp-8, Chitwan",
-      "companyId": "1"
-    },
-    {
-      "id": "3a95",
-      "name": "Aman Mate",
-      "email": "amanmahatocsit080@chitwancollege.edu.np",
-      "address": "Chaurali chowk, Chitwan",
-      "companyId": "1"
-    },
-    {
-      "id": "0bd8",
-      "name": "Sumit poudel",
-      "email": "Sumitpoudel@gmail.com",
-      "address": "Bnp-8, Chitwan",
-      "companyId": "1"
-    },
-    {
-      "id": "5fb4",
-      "name": "Abilash Mate",
-      "email": "abilash@gmail.com",
-      "address": "Saptagandaki chowk",
-      "companyId": "1"
-    },
-    {
-      "id": "787d",
-      "name": "Aashish Gharti",
-      "email": "asdsfdsf@gmail.com",
-      "address": "bnp-9",
-      "companyId": "1"
     },
     {
       "id": "3580",
@@ -151,6 +109,111 @@
       "name": "Arjun",
       "email": "bat@gmail.com",
       "address": "Gotham city",
+      "companyId": "1"
+    },
+    {
+      "id": "e4c8",
+      "name": "samip",
+      "email": "bat@gmail.com",
+      "address": "Gotham city",
+      "companyId": "1"
+    },
+    {
+      "id": "1955",
+      "name": "kira",
+      "email": "bat@gmail.com",
+      "address": "Gotham city",
+      "companyId": "1"
+    },
+    {
+      "id": "a9bf",
+      "name": "ashman",
+      "email": "bat@gmail.com",
+      "address": "Gotham city",
+      "companyId": "1"
+    },
+    {
+      "id": "d2cf",
+      "name": "kito",
+      "email": "swordsaint@gmail.com",
+      "address": "Bnp-8, Chitwan",
+      "companyId": "1"
+    },
+    {
+      "id": "4fa9",
+      "name": "dean",
+      "email": "swordsaint@gmail.com",
+      "address": "Bnp-8, Chitwan",
+      "companyId": "1"
+    },
+    {
+      "id": "cb87",
+      "name": "grim",
+      "email": "swordsaint@gmail.com",
+      "address": "Bnp-8, Chitwan",
+      "companyId": "1"
+    },
+    {
+      "id": "857d",
+      "name": "Orange",
+      "email": "swordsaint@gmail.com",
+      "address": "Bnp-8, Chitwan",
+      "companyId": "1"
+    },
+    {
+      "id": "7148",
+      "name": "potato",
+      "email": "swordsaint@gmail.com",
+      "address": "Bnp-8, Chitwan",
+      "companyId": "1"
+    },
+    {
+      "id": "d4ce",
+      "name": "carrot",
+      "email": "swordsaint@gmail.com",
+      "address": "Bnp-8, Chitwan",
+      "companyId": "1"
+    },
+    {
+      "id": "e64b",
+      "name": "few",
+      "email": "amanmahatocsit080@chitwancollege.edu.np",
+      "address": "Chaurali chowk, Chitwan",
+      "companyId": "1"
+    },
+    {
+      "id": "3512",
+      "name": "bat",
+      "email": "bat@gmail.com",
+      "address": "Gotham city",
+      "companyId": "1"
+    },
+    {
+      "id": "1369",
+      "name": "bat",
+      "email": "bat@gmail.com",
+      "address": "Gotham city",
+      "companyId": "1"
+    },
+    {
+      "id": "54d3",
+      "name": "bat",
+      "email": "bat@gmail.com",
+      "address": "Gotham city",
+      "companyId": "1"
+    },
+    {
+      "id": "6599",
+      "name": "bat",
+      "email": "bat@gmail.com",
+      "address": "Gotham city",
+      "companyId": "1"
+    },
+    {
+      "id": "be61",
+      "name": "Aashmani",
+      "email": "aashish@gmail.com",
+      "address": "bnp-9",
       "companyId": "1"
     }
   ]

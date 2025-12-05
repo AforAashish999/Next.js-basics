@@ -1,5 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { mutate } from 'swr';
 
 export default function UpdateUser({closePop, id, name, email, address}) {
   const{register, handleSubmit } = useForm({ defaultValues: {name, email, address} });
@@ -10,15 +12,20 @@ export default function UpdateUser({closePop, id, name, email, address}) {
       body: JSON.stringify(data)
     })
     if(!response.ok) throw new Error("Updation Failed ")
-      alert("User Updated");
-      window.location.reload();
+      // alert("User Updated");
+      // window.location.reload();
+      toast.success("User Updated Successfully", {
+        duration: 2000,
+      });
+      mutate(`${process.env.NEXT_PUBLIC_API}/users`);
+      closePop();
   }
 
   return (
     <>
       <div className="min-h-screen flex justify-center items-center
       bg-white/40 backdrop-blur-sm ">
-        <div className="min-h-0 bg-slate-300 p-12 rounded-lg shadow-xl/30 ">
+        <div className="min-h-0 bg-slate-200 p-12 rounded-lg shadow-xl/30 ">
           <form 
           onSubmit={handleSubmit(onSubmit)}
           >
